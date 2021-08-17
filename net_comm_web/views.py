@@ -15,8 +15,15 @@ from django.utils.encoding import force_bytes
 from django.db import connection
 from django.contrib.auth.models import User
 
+
 # Create your views here.
 
 
 def index(request):
     return render(request, "pages/index.html")
+
+
+def login(request):
+    return render(request, "pages/register.html")
+
+

@@ -80,9 +80,8 @@ DATABASES = {
         'NAME': 'CommunicationLTD',
         'USER': 'netcomm',
         'PASSWORD': 'Mf439&0$',
-        'HOST': 'localhost',
+        'HOST': '3.12.123.251',
         'PORT': '3306'
-    }
     }
 }
 
