@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from .form import RegisterForm
 
 # Create your views here.
 
@@ -12,7 +13,8 @@ def login(request):
 
 
 def register(request):
-    return render(request, "pages/register.html")
+    form = RegisterForm()
+    return render(request, "pages/register.html", {'register_form': form})
 
 
 def change_password(request):
