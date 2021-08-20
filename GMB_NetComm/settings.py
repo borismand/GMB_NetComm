@@ -57,7 +57,7 @@ ROOT_URLCONF = 'GMB_NetComm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./net_comm_web/Errors','./net_comm_web/pages'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
