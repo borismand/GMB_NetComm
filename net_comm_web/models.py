@@ -11,7 +11,7 @@ class Customer(models.Model):
     ]
     f_name = models.CharField(max_length=15)
     l_name = models.CharField(max_length=15)
-    personal_id = models.BigIntegerField()
+    personal_id = models.BigIntegerField(default=100000000, unique=True)
     mobile_num = models.CharField(max_length=15)
     email = models.EmailField(max_length=254)
     subscription = models.CharField(max_length=4, choices=PROGRAM, default='200')
