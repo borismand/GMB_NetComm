@@ -1,31 +1,82 @@
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .form import RegisterForm, AddCustomerForm, LoginForm
+from .form import RegisterForm, AddCustomerForm, ChangePassword
 
 # Create your views here.
-from .models import Customer, Program
+from .models import Customer
 
 
 def index(request):
     return render(request, "pages/index.html")
 
-
-def login(request):
-    form = LoginForm()
+def sign_in(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # Redirect to a success page.
+            return redirect('/')
+        else:
+            # Return an 'invalid login' error message.
+            messages.error(request, "Login failed, this combination of username and password is incorrect")
+    else:
+        form = AuthenticationForm()
     return render(request, "pages/login.html", {'login_form': form})
 
 
+def sign_out(request):
+    logout(request)
+    return redirect('/')
+
+
 def register(request):
-    if request.method == 'POST':
-        form = RegisterForm()
-
+    if request.method == "POST":
+        # Create a form instance with the submitted data
+        form = RegisterForm(request.POST)
+        # Validate the form
+        print(form.is_valid())
+        if form.is_valid():
+            # If the form is valid, save the user and login
+            user = form.save()
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            messages.success(
+                request, "Registration successful, You are now logged in")
+            # Redirect to homepage
+            return redirect('/')
+        messages.error(
+            request, "Error, registration failed! Please verify the information is correct and try again")
+        return HttpResponseRedirect("/register")
     form = RegisterForm()
-
-    return render(request, "pages/register.html", {'register_form': form})
+    return render(request=request, template_name="pages/register.html", context={"register_form": form})
 
 
 def change_password(request):
-    return render(request, "pages/changepassword.html")
+    if request.user.is_authenticated:
+        username = request.user.get_username()
+        if request.method == 'POST':
+            form = ChangePassword(request.POST)
+            if form.is_valid():
+                new_password = form.cleaned_data['new_password']
+                confirm_new_password = form.cleaned_data['confirm_new_password']
+                if new_password != confirm_new_password:
+                    form.add_error('password_confirm', 'The passwords do not match')
+                else:
+                    u = User.objects.get(username=username)
+                    u.set_password(confirm_new_password)
+                    u.save()
+                    messages.success(request, "The password has been changed successfully")
+                    return redirect("/")
+        else:
+            form = ChangePassword()
+
+    return render(request, "pages/changepassword.html", {'change_password_form': form})
 
 
 def dashboard(request):
@@ -35,7 +86,7 @@ def dashboard(request):
 def add_customer(request):
     costs = {'200': 80, '500': 100, '1000': 130}
     form = AddCustomerForm()
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_superuser:
         customers = Customer.objects.all()
         if request.method == 'POST':
             form = AddCustomerForm(request.POST)
@@ -48,15 +99,13 @@ def add_customer(request):
                 subscription = form.cleaned_data['subscription']
                 program_cost = costs[subscription]
                 try:
-                    program = Program.objects.create(subscription=subscription,
-                                                     program_cost=program_cost)
-
                     customer = Customer.objects.create(f_name=f_name,
                                                        l_name=l_name,
                                                        email=email,
                                                        personal_id=personal_id,
                                                        mobile_num=mobile_phone,
-                                                       related_program=program)
+                                                       subscription=subscription,
+                                                       program_cost=program_cost)
 
                     messages.success(
                         request, f"You have successfully added a new client: {customer}.")
@@ -71,4 +120,3 @@ def add_customer(request):
                                                       'customers_table': customers})
     else:
         return render(request, "Errors/401.html")
-
