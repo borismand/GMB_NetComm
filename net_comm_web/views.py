@@ -19,6 +19,7 @@ def register(request):
     if request.method == 'POST':
         form = RegisterForm()
 
+    form = RegisterForm()
 
     return render(request, "pages/register.html", {'register_form': form})
 
