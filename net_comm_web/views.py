@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .form import RegisterForm, AddCustomerForm
+from .form import RegisterForm, AddCustomerForm, LoginForm
 
 # Create your views here.
 from .models import Customer, Program
@@ -11,7 +11,8 @@ def index(request):
 
 
 def login(request):
-    return render(request, "pages/login.html")
+    form = LoginForm()
+    return render(request, "pages/login.html", {'login_form': form})
 
 
 def register(request):
@@ -66,3 +67,4 @@ def add_customer(request):
                                                       'customers_table': customers})
     else:
         return render(request, "Errors/401.html")
+

@@ -1,0 +1,13 @@
+.hero {
+    background-image: url('/static/assets/img/negative-space-network-cable.jpg'),
+    linear-gradient(rgb(99, 99, 99), #fff);
+    background-blend-mode: overlay;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-bottom: 2px #000 dotted;
+}
+
+a {
+    color: #28a745;
+}
