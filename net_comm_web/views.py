@@ -16,7 +16,10 @@ def login(request):
 
 
 def register(request):
-    form = RegisterForm()
+    if request.method == 'POST':
+        form = RegisterForm()
+
+
     return render(request, "pages/register.html", {'register_form': form})
 
 

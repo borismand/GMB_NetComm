@@ -8,8 +8,8 @@ class RegisterForm(forms.Form):
     email = forms.EmailField()
     personal_id = forms.IntegerField(min_value=100000000, max_value=999999999)
     mobile_phone = forms.CharField(max_length=14)
-    password = forms.PasswordInput()
-    confirm_password = forms.PasswordInput()
+    # password = forms.PasswordInput()
+    # confirm_password = forms.PasswordInput()
     password = forms.CharField(widget=forms.PasswordInput())
     confirm_password = forms.CharField(widget=forms.PasswordInput())
 
