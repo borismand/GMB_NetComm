@@ -9,12 +9,18 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import json
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Use password requirements config file
+with open(os.path.join(BASE_DIR, 'GMB_NetComm/sec_pass_req.json')) as f:
+    PASS_MIN_REQUIREMENTS = json.load(f)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -88,17 +94,26 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
+    {'NAME': 'my.project.validators.NumberValidator',
+     'OPTIONS': {
+         'min_digits': PASS_MIN_REQUIREMENTS['password_content_requirements']['min_digits'], }},
+    {'NAME': 'my.project.validators.UppercaseValidator', },
+    {'NAME': 'my.project.validators.LowercaseValidator', },
+    {'NAME': 'my.project.validators.SymbolValidator', },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': PASS_MIN_REQUIREMENTS['min_pass_length'],
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django_password_validators.password_history.password_validation.UniquePasswordsValidator',
+        'OPTIONS': {
+            'last_passwords': PASS_MIN_REQUIREMENTS['last_passwords']  # Last 3 passwords are not allowed to use
+        }
     },
 ]
 

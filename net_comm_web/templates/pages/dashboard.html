@@ -1,4 +1,4 @@
-{% extends './header.html' %}
+{% extends '../header.html' %}
 {% load static %}
 <!--Block content goes below-->
 
@@ -135,7 +135,7 @@
                                         <th>Start Date</th>
                                         <th>Cost</th>
                                     </tr>
-                                    {% for client in clients %}
+                                    {% for client in customers %}
                                          <tr>
                                             <td>{{client.first_name|safe}}</td>
                                             <td>{{client.last_name}}</td>

@@ -1,0 +1,16 @@
+{
+  "last_passwords": 3,
+  "min_pass_length": 10,
+
+  "password_content_requirements": {
+    "min_digits": 0,
+    "min_alphas": 0,
+    "min_specials": 1,
+    "min_lowers": 1,
+    "min_capitals": 1,
+    "special_characters": "~!@#$%^&*()_+{}\":;'[]"
+  },
+
+  "max_login_attempts":3,
+  "failed_login_punishment": 1
+}

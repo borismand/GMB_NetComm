@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .form import RegisterForm, AddCustomerForm, ChangePassword
+from .validators import *
 
 # Create your views here.
 from .models import Customer
@@ -68,11 +69,16 @@ def change_password(request):
                 if new_password != confirm_new_password:
                     form.add_error('password_confirm', 'The passwords do not match')
                 else:
-                    u = User.objects.get(username=username)
-                    u.set_password(confirm_new_password)
-                    u.save()
-                    messages.success(request, "The password has been changed successfully")
-                    return redirect("/")
+                    pass_check = validate_password_complexity(new_password)
+                    num_of_trues = len([item for item in pass_check if item is True])
+                    if num_of_trues != len(pass_check):
+                        form.add_error('password validity', pass_check)
+                    else:
+                        u = User.objects.get(username=username)
+                        u.set_password(confirm_new_password)
+                        u.save()
+                        messages.success(request, "The password has been changed successfully")
+                        return redirect("/")
         else:
             form = ChangePassword()
 
