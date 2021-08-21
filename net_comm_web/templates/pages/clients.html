@@ -61,14 +61,14 @@
                                         <th>Start Date</th>
                                         <th>Cost</th>
                                     </tr>
-                                    {% for customer in customer_table %}
+                                    {% for customer in customers_table %}
                                         <tr>
                                             <td>{{customer.f_name}}</td>
                                             <td>{{customer.l_name}}</td>
                                             <td>{{customer.personal_id}}</td>
                                             <td>{{customer.email}}</td>
                                             <td>{{customer.mobile_num}}</td>
-                                            <td>{{customer.subscription}}</td>
+                                            <td>{{customer.program.subscription}}</td>
                                             <td>{{customer.charge_from}}</td>
                                             <td>{{customer.program_cost}}</td>
                                         </tr>

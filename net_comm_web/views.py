@@ -3,7 +3,7 @@ from django.contrib import messages
 from .form import RegisterForm, AddCustomerForm
 
 # Create your views here.
-from .models import Customer
+from .models import Customer, Program
 
 
 def index(request):
@@ -32,7 +32,6 @@ def add_customer(request):
     form = AddCustomerForm()
     if request.user.is_authenticated:
         customers = Customer.objects.all()
-        print(f'Clients: {customers}')
         if request.method == 'POST':
             form = AddCustomerForm(request.POST)
             if form.is_valid():
@@ -44,9 +43,16 @@ def add_customer(request):
                 subscription = form.cleaned_data['subscription']
                 program_cost = costs[subscription]
                 try:
-                    customer = Customer.objects.create(f_name=f_name, l_name=l_name, email=email,
-                                                       personal_id=personal_id, mobile_num=mobile_phone,
-                                                       subscription=subscription, program_cost=program_cost)
+                    program = Program.objects.create(subscription=subscription,
+                                                     program_cost=program_cost)
+
+                    customer = Customer.objects.create(f_name=f_name,
+                                                       l_name=l_name,
+                                                       email=email,
+                                                       personal_id=personal_id,
+                                                       mobile_num=mobile_phone,
+                                                       related_program=program)
+
                     messages.success(
                         request, f"You have successfully added a new client: {customer}.")
                     # Redirect to clients page
@@ -56,7 +62,7 @@ def add_customer(request):
                     messages.error(request, "Error: could not create db record")
             else:
                 messages.error(request, "Error: form is not valid")
-        return render(request, "pages/clients.html", {'add_customer_form': form, 'customer_table': customers})
+        return render(request, "pages/clients.html", {'add_customer_form': form,
+                                                      'customers_table': customers})
     else:
         return render(request, "Errors/401.html")
-
