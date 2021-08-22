@@ -67,12 +67,12 @@ def change_password(request):
                 new_password = form.cleaned_data['new_password']
                 confirm_new_password = form.cleaned_data['confirm_new_password']
                 if new_password != confirm_new_password:
-                    form.add_error('password_confirm', 'The passwords do not match')
+                    form.add_error('confirm_new_password', 'The passwords do not match')
                 else:
                     pass_check = validate_password_complexity(new_password)
-                    num_of_trues = len([item for item in pass_check if item is True])
-                    if num_of_trues != len(pass_check):
-                        form.add_error('password validity', pass_check)
+                    num_of_not_valid = [item for item in pass_check if item is not True]
+                    if len(num_of_not_valid) != 0:
+                        form.add_error('new_password', num_of_not_valid)
                     else:
                         u = User.objects.get(username=username)
                         u.set_password(confirm_new_password)

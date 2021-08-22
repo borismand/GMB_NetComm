@@ -140,3 +140,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/var/www/static/',
 ]
+
+PASSWORD_HASHERS = [
+'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+]
