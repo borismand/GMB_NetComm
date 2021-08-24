@@ -38,6 +38,8 @@ class AddCustomerForm(forms.Form):
     mobile_phone = forms.CharField(max_length=14)
     subscription = forms.ChoiceField(choices=Customer.PROGRAM)
 
+class SearchUserForm(forms.Form):
+    email = forms.CharField()
 
 class ChangePassword(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput())

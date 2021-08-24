@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .form import RegisterForm, AddCustomerForm, ChangePassword
+from .form import RegisterForm, AddCustomerForm, ChangePassword, SearchUserForm
 from .validators import *
 
 # Create your views here.
@@ -92,14 +92,17 @@ def change_password(request):
     return render(request, "pages/changepassword.html", {'change_password_form': form})
 
 
-def dashboard(request):
-    return render(request, "pages/dashboard.html")
+# def search_user(request):
+#     form = SearchUserForm()
+#     if request.method == 'POST':
+#
+#     return render(request, "pages/clients.html")
 
 
 def add_customer(request):
     costs = {'200': 80, '500': 100, '1000': 130}
     form = AddCustomerForm()
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated:
         customers = Customer.objects.all()
         if request.method == 'POST':
             form = AddCustomerForm(request.POST)
@@ -126,6 +129,7 @@ def add_customer(request):
                     return render(request=request, template_name="pages/clients.html",
                                   context={'add_customer_form': form})
                 except Exception as e:
+                    print(e)
                     messages.error(request, "Error: could not create db record")
             else:
                 messages.error(request, "Error: form is not valid")
