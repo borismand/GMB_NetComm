@@ -1,9 +1,9 @@
 {
-  "last_passwords": 3,
+  "last_passwords": 5,
   "min_pass_length": 10,
 
   "password_content_requirements": {
-    "min_digits": 4,
+    "min_digits": 2,
     "min_alphas": 0,
     "min_specials": 1,
     "min_lowers": 1,

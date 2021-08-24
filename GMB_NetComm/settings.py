@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import json
+import random
 from pathlib import Path
 import os
 
@@ -43,7 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'net_comm_web',
-    'crispy_forms'
+    'crispy_forms',
+    'django_password_validators',
+    'django_password_validators.password_history'
 ]
 
 MIDDLEWARE = [
@@ -94,25 +97,15 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'my.project.validators.NumberValidator',
-     'OPTIONS': {
-         'min_digits': PASS_MIN_REQUIREMENTS['password_content_requirements']['min_digits'], }},
-    {'NAME': 'my.project.validators.UppercaseValidator', },
-    {'NAME': 'my.project.validators.LowercaseValidator', },
-    {'NAME': 'my.project.validators.SymbolValidator', },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {
-            'min_length': PASS_MIN_REQUIREMENTS['min_pass_length'],
-        }
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
+    {'NAME': 'net_comm_web.validators.NumberValidator'},
+    {'NAME': 'net_comm_web.validators.UppercaseValidator'},
+    {'NAME': 'net_comm_web.validators.LowercaseValidator'},
+    {'NAME': 'net_comm_web.validators.SymbolValidator'},
+    {'NAME': 'net_comm_web.validators.LengthValidator'},
     {
         'NAME': 'django_password_validators.password_history.password_validation.UniquePasswordsValidator',
         'OPTIONS': {
-            'last_passwords': PASS_MIN_REQUIREMENTS['last_passwords']  # Last 3 passwords are not allowed to use
+            'last_passwords': PASS_MIN_REQUIREMENTS['last_passwords']
         }
     },
 ]
@@ -122,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tel_Aviv'
 
 USE_I18N = True
 
@@ -142,5 +135,6 @@ STATICFILES_DIRS = [
 ]
 
 PASSWORD_HASHERS = [
-'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    # 'django.contrib.auth.hashers.PBKDF2_SHA256PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 ]

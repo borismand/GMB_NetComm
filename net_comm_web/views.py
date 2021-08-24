@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, password_validation
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -13,6 +13,7 @@ from .models import Customer
 
 def index(request):
     return render(request, "pages/index.html")
+
 
 def sign_in(request):
     if request.method == 'POST':
@@ -41,9 +42,10 @@ def register(request):
     if request.method == "POST":
         # Create a form instance with the submitted data
         form = RegisterForm(request.POST)
+
         # Validate the form
-        print(form.is_valid())
         if form.is_valid():
+            print(form.errors)
             # If the form is valid, save the user and login
             user = form.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
@@ -53,7 +55,10 @@ def register(request):
             return redirect('/')
         messages.error(
             request, "Error, registration failed! Please verify the information is correct and try again")
+        print(form.errors)
+        print(form.cleaned_data)
         return HttpResponseRedirect("/register")
+        print(form.errors)
     form = RegisterForm()
     return render(request=request, template_name="pages/register.html", context={"register_form": form})
 
@@ -73,6 +78,8 @@ def change_password(request):
                     num_of_not_valid = [item for item in pass_check if item is not True]
                     if len(num_of_not_valid) != 0:
                         form.add_error('new_password', num_of_not_valid)
+                    # elif not PastPassValidator().validate(new_password, User.objects.get(username=request.user).id):
+                    #     form.add_error('new_password', PastPassValidator().get_help_text())
                     else:
                         u = User.objects.get(username=username)
                         u.set_password(confirm_new_password)
