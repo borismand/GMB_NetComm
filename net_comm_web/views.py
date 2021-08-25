@@ -160,7 +160,7 @@ def password_reset_request(request):
 			if associated_users.exists():
 				for user in associated_users:
 					subject = "Password Reset Requested"
-					email_template_name = "main/password/password_reset_email.txt"
+					email_template_name = "pages/components/password_reset_email.txt"
 					c = {
 					"email":user.email,
 					'domain':'127.0.0.1:8000',
@@ -172,7 +172,7 @@ def password_reset_request(request):
 					}
 					email = render_to_string(email_template_name, c)
 					try:
-						send_mail(subject, email, 'admin@example.com' , [user.email], fail_silently=False)
+						send_mail(subject, email, 'commltdhit@gmail.com' , [user.email], fail_silently=False)
 					except BadHeaderError:
 						return HttpResponse('Invalid header found.')
 					return redirect ("/password_reset/done/")

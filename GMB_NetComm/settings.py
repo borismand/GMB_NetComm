@@ -61,10 +61,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'GMB_NetComm.urls'
 
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./net_comm_web/Errors', './net_comm_web/pages'],
+        'DIRS': ['./net_comm_web/Errors', './net_comm_web/pages', 
+        os.path.join(SETTINGS_PATH, 'net_comm_web')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +79,11 @@ TEMPLATES = [
         },
     },
 ]
+
+
+# TEMPLATE_DIRS = (
+#     os.path.join(SETTINGS_PATH, 'templates'),
+# )
 
 WSGI_APPLICATION = 'GMB_NetComm.wsgi.application'
 
@@ -111,6 +119,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'commltdhit@gmail.com'
+EMAIL_HOST_PASS = 'GBM1234!'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
