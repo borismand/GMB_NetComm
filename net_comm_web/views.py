@@ -5,6 +5,8 @@ from django.db import connection
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.utils.safestring import mark_safe
+
 from .form import RegisterForm, AddCustomerForm, ChangePassword
 from .validators import *
 
@@ -269,6 +271,7 @@ def add_customer(request):
                     return redirect('/clients')
 
                 # Add customer record to the DB
+
                 try:
                     customer = Customer.objects.create(f_name=f_name,
                                                        l_name=l_name,

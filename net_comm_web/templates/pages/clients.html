@@ -58,6 +58,9 @@
                                 </tr>
                                 {% for customer in customers_table %}
                                     <tr>
+                                        <!--XSS vulnerable field-->
+                                    <!--<td>{{customer.f_name | safe}}</td>-->
+                                        <!--XSS Protected field-->
                                         <td>{{customer.f_name}}</td>
                                         <td>{{customer.l_name}}</td>
                                         <td>{{customer.personal_id}}</td>

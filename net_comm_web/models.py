@@ -10,6 +10,10 @@ class Customer(models.Model):
         ('500', '500 Mbps'),
         ('1000', '1Gbps')
     ]
+    # Vulnerable for stored XSS example
+    # f_name = models.CharField(max_length=254)
+
+    # Protected
     f_name = models.CharField(max_length=15)
     l_name = models.CharField(max_length=15)
     personal_id = models.BigIntegerField()

@@ -30,8 +30,13 @@ class RegisterForm(UserCreationForm):
 
 
 class AddCustomerForm(forms.Form):
+    # XSS Vulnerable
+    # first_name = forms.CharField()
+
+    # XSS Protected by length limitation
     first_name = forms.CharField(max_length=15)
     last_name = forms.CharField(max_length=15)
+
     # SQLI Vulnerable
     # email = forms.CharField()
     # personal_id = forms.CharField()
