@@ -7,7 +7,6 @@ from .models import Customer
 
 
 class RegisterForm(UserCreationForm):
-
     email_address = forms.EmailField()
 
     def save(self, commit=True):
@@ -28,8 +27,6 @@ class RegisterForm(UserCreationForm):
         fields = ('username', 'email_address')
 
 
-
-
 class AddCustomerForm(forms.Form):
     first_name = forms.CharField(max_length=15)
     last_name = forms.CharField(max_length=15)
@@ -38,8 +35,10 @@ class AddCustomerForm(forms.Form):
     mobile_phone = forms.CharField(max_length=14)
     subscription = forms.ChoiceField(choices=Customer.PROGRAM)
 
+
 class SearchUserForm(forms.Form):
     email = forms.CharField()
+
 
 class ChangePassword(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput())

@@ -13,16 +13,12 @@
                 <main>
                     <div class="container-fluid">
                         <h1 class="mt-4">Clients</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Clients</li>
-                        </ol>
                         <div class="card-header">
                             <i class="fas fa-table mr-1"></i>
                                 Add Client
                         </div>
                         <form method="POST">
-<!--                            {% csrf_token %}-->
+                            {% csrf_token %}
                             <div class = "add_client">
                                 <table class="table table-bordered" id="data_table" width="100%" cellspacing="0">
                                     <tr>
@@ -44,39 +40,38 @@
                             </div> 
                         </form>
                         &nbsp;
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table mr-1"></i>
-                                Clients
-                            </div>
-                            <div class = "clients">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Personal ID</th>
-                                        <th>Email</th>
-                                        <th>Mobile Phone</th>
-                                        <th>Subscription</th>
-                                        <th>Start Date</th>
-                                        <th>Cost</th>
-                                    </tr>
-                                    {% for customer in customers_table %}
-                                        <tr>
-                                            <td>{{customer.f_name}}</td>
-                                            <td>{{customer.l_name}}</td>
-                                            <td>{{customer.personal_id}}</td>
-                                            <td>{{customer.email}}</td>
-                                            <td>{{customer.mobile_num}}</td>
-                                            <td>{{customer.subscription}}</td>
-                                            <td>{{customer.charge_from}}</td>
-                                            <td>{{customer.program_cost}}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>                        
+                        <div class="card-header">
+                            <i class="fas fa-table mr-1"></i>
+                            Clients
                         </div>
-                    </div>
+                        <div class = "clients">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Personal ID</th>
+                                    <th>Email</th>
+                                    <th>Mobile Phone</th>
+                                    <th>Subscription</th>
+                                    <th>Start Date</th>
+                                    <th>Cost</th>
+                                </tr>
+                                {% for customer in customers_table %}
+                                    <tr>
+                                        <td>{{customer.f_name}}</td>
+                                        <td>{{customer.l_name}}</td>
+                                        <td>{{customer.personal_id}}</td>
+                                        <td>{{customer.email}}</td>
+                                        <td>{{customer.mobile_num}}</td>
+                                        <td>{{customer.subscription}}</td>
+                                        <td>{{customer.charge_from}}</td>
+                                        <td>{{customer.program_cost}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        &nbsp;
+                        </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">

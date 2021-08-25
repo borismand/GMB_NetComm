@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout, password_validation
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.db import connection
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -14,6 +15,36 @@ from .models import Customer
 def index(request):
     return render(request, "pages/index.html")
 
+# # A sign_in method which is SQLI vulnerable
+# def sign_in(request):
+#     if request.method == 'POST':
+#         # Form Creation
+#         form = AuthenticationForm(request.POST)
+#
+#         # Gather username and password as a string
+#         username = request.POST['username']
+#         password = request.POST['password']
+#
+#         # Create a raw sql query for gathering the user data from the DB
+#         # The username should be a existing one otherwise it will not be found on the DB
+#         # but the password can be whatever it can be as long as it has the ending: ' OR 1=1#
+#         # We user the user: Admin and password: 123wqeasd ' OR 1=1#
+#         sql_query = f'SELECT * FROM auth_user WHERE username=\'{username}\' AND password=\'{password}\''
+#         # Create a connector
+#         cursor = connection.cursor()
+#         # Execute the sql query on the database and authenticate with the received user if exists
+#         if cursor.execute(sql_query):
+#             user = User.objects.get(username=username)
+#             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+#             # Display the username logged in
+#             messages.info(request, f'You are now logged in as {username}')
+#             return redirect('/')
+#         else:
+#             # Error in case the username or password is incorrect
+#             messages.error(request, "Login failed, this combination of username and password is incorrect")
+#     else:
+#         form = AuthenticationForm()
+#     return render(request, "pages/login.html", {'login_form': form})
 
 def sign_in(request):
     if request.method == 'POST':
@@ -24,6 +55,7 @@ def sign_in(request):
         if user is not None:
             login(request, user)
             # Redirect to a success page.
+            messages.info(f'You are now logged in as {username}')
             return redirect('/')
         else:
             # Return an 'invalid login' error message.
@@ -90,13 +122,6 @@ def change_password(request):
             form = ChangePassword()
 
     return render(request, "pages/changepassword.html", {'change_password_form': form})
-
-
-# def search_user(request):
-#     form = SearchUserForm()
-#     if request.method == 'POST':
-#
-#     return render(request, "pages/clients.html")
 
 
 def add_customer(request):
