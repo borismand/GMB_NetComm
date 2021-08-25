@@ -37,14 +37,15 @@ class AddCustomerForm(forms.Form):
     # personal_id = forms.CharField()
 
     # Protected
+    '''
+    EmailField us protection from malicious inputs by validating the input.
+    It checks everything that comes after the "@" sign and verifies that it complies with the conventions 
+    of an email address
+    '''
     email = forms.EmailField()
     personal_id = forms.IntegerField(min_value=100000000, max_value=999999999)
     mobile_phone = forms.CharField(max_length=14)
     subscription = forms.ChoiceField(choices=Customer.PROGRAM)
-
-
-class SearchUserForm(forms.Form):
-    email = forms.CharField()
 
 
 class ChangePassword(forms.Form):

@@ -5,7 +5,7 @@ from django.db import connection
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .form import RegisterForm, AddCustomerForm, ChangePassword, SearchUserForm
+from .form import RegisterForm, AddCustomerForm, ChangePassword
 from .validators import *
 
 # Create your views here.
@@ -247,6 +247,8 @@ def add_customer(request):
         customers = Customer.objects.all()
         if request.method == 'POST':
             form = AddCustomerForm(request.POST)
+
+            # Validate the form fields
             if form.is_valid():
                 f_name = form.cleaned_data['first_name']
                 l_name = form.cleaned_data['last_name']
@@ -255,6 +257,18 @@ def add_customer(request):
                 mobile_phone = form.cleaned_data['mobile_phone']
                 subscription = form.cleaned_data['subscription']
                 program_cost = costs[subscription]
+
+                # Check if the customer with this email exists
+                if Customer.objects.filter(email=email):
+                    messages.error(request, 'A customer with this email address already exists')
+                    return redirect('/clients')
+
+                # Check if a customer with this personal_id exists
+                if Customer.objects.filter(personal_id=personal_id):
+                    messages.error(request, 'A customer with this personal_id already exists')
+                    return redirect('/clients')
+
+                # Add customer record to the DB
                 try:
                     customer = Customer.objects.create(f_name=f_name,
                                                        l_name=l_name,
