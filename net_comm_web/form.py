@@ -7,6 +7,8 @@ from .models import Customer
 
 
 class RegisterForm(UserCreationForm):
+    # For vulnerable registration form
+    # email_address = forms.CharField()
     email_address = forms.EmailField()
 
     def save(self, commit=True):
@@ -30,6 +32,11 @@ class RegisterForm(UserCreationForm):
 class AddCustomerForm(forms.Form):
     first_name = forms.CharField(max_length=15)
     last_name = forms.CharField(max_length=15)
+    # SQLI Vulnerable
+    # email = forms.CharField()
+    # personal_id = forms.CharField()
+
+    # Protected
     email = forms.EmailField()
     personal_id = forms.IntegerField(min_value=100000000, max_value=999999999)
     mobile_phone = forms.CharField(max_length=14)
