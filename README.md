@@ -18,7 +18,7 @@ A final project in "Computer Security" course in HIT.
 </ul>
 
 ```bash
-pip install -i <path_to_requirements_file>/requirements.txt
+pip install -r <path_to_requirements_file>/requirements.txt
 ```
 
 ### Run the application
@@ -37,7 +37,7 @@ The application user have access to a specific database with specific credential
 ### Mail
 
 A dedicated user was created in Gmail in order to satisfy the "forgot password" function reuqirement
-
+<br>commltdhit@gmail.com
  
 
 
