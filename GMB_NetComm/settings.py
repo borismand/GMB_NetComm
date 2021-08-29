@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import json
-import random
 from pathlib import Path
 import os
 
@@ -66,8 +65,8 @@ SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./net_comm_web/Errors', './net_comm_web/pages', 
-        os.path.join(SETTINGS_PATH, 'net_comm_web')],
+        'DIRS': ['./net_comm_web/Errors', './net_comm_web/pages',
+                 os.path.join(SETTINGS_PATH, 'net_comm_web')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +78,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 # TEMPLATE_DIRS = (
 #     os.path.join(SETTINGS_PATH, 'templates'),

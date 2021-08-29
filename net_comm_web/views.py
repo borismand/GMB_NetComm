@@ -174,13 +174,14 @@ def change_password(request):
                     num_of_not_valid = [item for item in pass_check if item is not True]
                     if len(num_of_not_valid) != 0:
                         messages.error(request, 'Your password did not met the requirements. Please try again '
-                                                'kibenimat`') 
+                                                'KIBENIMAT`')
                         form.add_error('new_password', num_of_not_valid)
                     else:
                         u = User.objects.get(username=username)
                         u.set_password(confirm_new_password)
                         u.save()
                         messages.success(request, "The password has been changed successfully")
+                        login(request, u, backend='django.contrib.auth.backends.ModelBackend')
                         return redirect("/")
         else:
             form = ChangePassword()
