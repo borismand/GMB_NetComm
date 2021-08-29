@@ -188,7 +188,7 @@ def change_password(request):
     return render(request, "pages/change_password.html", {'change_password_form': form})
 
 
-# # A register method which is SQLI vulnerable
+# # A add customer method which is SQLI vulnerable
 # def add_customer(request):
 #     costs = {'200': 80, '500': 100, '1000': 130}
 #     if request.user.is_authenticated:
