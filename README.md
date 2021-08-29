@@ -13,7 +13,7 @@ A final project in "Computer Security" course in HIT.
 
 ### Requirements:
 <ul>
-<li>The application requires python3.9 (can create a virtual env https://docs.python.org/3/library/venv.html)</li>
+<li>The application requires python3.8 or higher (can create a virtual env https://docs.python.org/3/library/venv.html)</li>
 <li>To install the requirements run the following command:</li>
 </ul>
 
