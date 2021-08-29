@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'net_comm_web',
     'crispy_forms',
     'django_password_validators',
-    'django_password_validators.password_history'
+    'django_password_validators.password_history',
 ]
 
 MIDDLEWARE = [
@@ -90,6 +90,7 @@ WSGI_APPLICATION = 'GMB_NetComm.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DB that was created specifically for this project on AWS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -104,6 +105,8 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
+
+# Added custom validators with custom messages
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'net_comm_web.validators.NumberValidator'},
     {'NAME': 'net_comm_web.validators.UppercaseValidator'},
@@ -118,6 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Email backend for sending emails - used for "Forgot password"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -150,7 +154,8 @@ STATICFILES_DIRS = [
     '/var/www/static/',
 ]
 
+# PBKDF2SHA1PasswordHasher uses both: Salt and HMAC
 PASSWORD_HASHERS = [
-    # 'django.contrib.auth.hashers.PBKDF2_SHA256PasswordHasher',
+    # 'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 ]

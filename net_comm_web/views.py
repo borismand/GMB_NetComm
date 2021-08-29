@@ -173,7 +173,8 @@ def change_password(request):
                     pass_check = validate_password_complexity(new_password)
                     num_of_not_valid = [item for item in pass_check if item is not True]
                     if len(num_of_not_valid) != 0:
-                        messages.error(request, 'Your password did not met the requirements. Please try again kibenimat`')
+                        messages.error(request, 'Your password did not met the requirements. Please try again '
+                                                'kibenimat`') 
                         form.add_error('new_password', num_of_not_valid)
                     else:
                         u = User.objects.get(username=username)
